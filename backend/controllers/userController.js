@@ -140,8 +140,10 @@ const getUserById = asyncHandler(async (req, res) => {
 const updateUser = asyncHandler(async (req, res) => {
   console.log(req.params.id,"id",req.body)
   const user = await User.updateOne({_id:req.params.id},{$push:{subscription:req.body}});
+
   if (user) {
-    
+  //  const update=  await User.findById(req.params._id);
+  //  console.log(update)
     res.json(user);
   } else {
     res.status(401);

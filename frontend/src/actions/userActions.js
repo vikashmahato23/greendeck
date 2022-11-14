@@ -26,13 +26,19 @@ import {
 } from "../constants/userConstants";
 import axios from "axios";
 import { ORDER_LIST_MY_RESET } from "../constants/orderConstants";
-
+ const config = {
+   headers: {
+     "Content-Type": "application/json",
+     "Access-Control-Allow-Origin": "*",
+   },
+ };
 export const login = (name, password) => async (dispatch) => {
   dispatch({
     type: USER_LOGIN_REQUEST,
   });
+   
   axios
-    .post("http://localhost:5000/api/users/login", { name, password })
+    .post("http://localhost:5000/api/users/login", { name, password },config)
     .then((res) => {
       console.log(res);
 
@@ -42,14 +48,14 @@ export const login = (name, password) => async (dispatch) => {
       });
     })
     .catch((error) => {
-        dispatch({
-          // type: USER_LOGIN_FAIL,
-          type: USER_LOGIN_FAIL,
-          payload:
-            error.response && error.response.data.message
-              ? error.response.data.message
-              : error.message,
-        });
+      dispatch({
+        // type: USER_LOGIN_FAIL,
+        type: USER_LOGIN_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      });
     });
 
   // try {
@@ -96,7 +102,7 @@ export const register = (name, password) =>(dispatch) => {
     dispatch({
       type:USER_REGISTER_REQUEST,
     })
-    axios.post("http://localhost:5000/api/users/register", { name, password }).then(res=>{
+    axios.post("http://localhost:5000/api/users/register", { name, password },config).then(res=>{
       console.log(res)
       dispatch({
         type: USER_REGISTER_SUCCESS,
@@ -133,7 +139,7 @@ export const getUserDetails = (id) => async (dispatch, getState) => {
         Authorization: `Bearer ${userInfo.token}`,
       },
     };
-    const { data } = await axios.get(`/api/users/${id}`, config);
+    const { data } = await axios.get(`http://localhost:5000/api/users/${id}`, config);
     dispatch({
       type: USER_DETAILS_SUCCESS,
       payload: data,
@@ -248,7 +254,7 @@ export const updateUser = ({id,user}) =>  (dispatch) => {
     axios
       .put(`http://localhost:5000/api/users/${id}`, user)
       .then((res) => {
-        console.log(res.data, "update");
+       dispatch(getUserDetails(id));
       })
       .catch((err) => {
         console.log(err);
