@@ -41,7 +41,7 @@ export const login = (name, password) => async (dispatch) => {
     .post("http://localhost:5000/api/users/login", { name, password },config)
     .then((res) => {
       console.log(res);
-
+      localStorage.setItem("set", JSON.stringify(res.data));
       dispatch({
         type: USER_LOGIN_SUCCESS,
         payload: res.data,
@@ -104,6 +104,7 @@ export const register = (name, password) =>(dispatch) => {
     })
     axios.post("http://localhost:5000/api/users/register", { name, password },config).then(res=>{
       console.log(res)
+      localStorage.setItem("set", JSON.stringify(res.data));
       dispatch({
         type: USER_REGISTER_SUCCESS,
         payload: res.data,

@@ -1,0 +1,18 @@
+button {
+    border-radius: 25px;
+    width: 80%;
+    height: 40px;
+    font-size: 1.3rem;
+    color: white;
+    font-weight: 700;
+    background: rgb(34, 193, 195);
+    background: linear-gradient(90deg, rgba(34, 193, 195, 1) 0%, rgba(253, 187, 45, 1) 100%);
+    border: 0px;
+    cursor: pointer;
+    transition: opacity 0.25s ease-out;
+}
+.select{
+    width: 50%;
+    margin: auto;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}

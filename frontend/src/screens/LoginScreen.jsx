@@ -24,7 +24,7 @@ const LoginScreen = () => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-
+    
     dispatch(login(name, password));
   };
 
