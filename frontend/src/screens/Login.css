@@ -2,11 +2,11 @@
 
 #loginform {
     background: rgb(34, 193, 195);
-   border: 1px solid linear-gradient(135deg, rgba(34, 193, 195, 1) 0%, rgba(253, 187, 45, 1) 100%);
-border-right: 1px solid rgba(253, 187, 45, 1) ;
-   border-top: 1px solid rgba(253, 187, 45, 1) ;
-   border-left: 1px solid   rgba(34, 193, 195, 1);
-   border-bottom:1px solid rgba(34, 193, 195, 1) ;
+    border: 1px solid linear-gradient(135deg, rgba(34, 193, 195, 1) 0%, rgba(253, 187, 45, 1) 100%);
+    border-right: 1px solid rgba(253, 187, 45, 1);
+    border-top: 1px solid rgba(253, 187, 45, 1);
+    border-left: 1px solid rgba(34, 193, 195, 1);
+    border-bottom: 1px solid rgba(34, 193, 195, 1);
     font-family: "work sans";
 }
 

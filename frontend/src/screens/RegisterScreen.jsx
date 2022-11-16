@@ -4,31 +4,29 @@ import { useDispatch, useSelector } from "react-redux";
 import { register } from "../actions/userActions";
 import { useNavigate } from "react-router-dom";
 const RegisterScreen = () => {
-        const [name, setName] = useState("");
+  const [name, setName] = useState("");
 
-        const [password, setPassword] = useState("");
-        const [confirmPassword, setConfirmPassword] = useState("");
-        const [message, setMessage] = useState(null);
-        const navigate=useNavigate()
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [message, setMessage] = useState(null);
+  const navigate = useNavigate();
 
-        const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
-        const userRegister = useSelector((state) => state.userRegister);
-        const { loading, error, userInfo } = userRegister;
-     
-      
-        useEffect(() => {
-          if (userInfo) {
-          navigate("/subscription");
-          }
-        }, [userInfo]);
+  const userRegister = useSelector((state) => state.userRegister);
+  const { loading, error, userInfo } = userRegister;
 
-        const submitHandler = (e) => {
-          e.preventDefault();
-      
-            dispatch(register(name, password));
-          
-        };
+  useEffect(() => {
+    if (userInfo) {
+      navigate("/subscriptions");
+    }
+  }, [userInfo]);
+
+  const submitHandler = (e) => {
+    e.preventDefault();
+
+    dispatch(register(name, password));
+  };
 
   return (
     <div id="loginform">
@@ -54,7 +52,9 @@ const RegisterScreen = () => {
           />
         </div>
         <div id="button" class="row">
-          <button onClick={submitHandler}>{loading?"Loading":"Signup"}</button>
+          <button onClick={submitHandler}>
+            {loading ? "Loading" : "Signup"}
+          </button>
         </div>
       </form>
       {/* <OtherMethods /> */}
@@ -63,9 +63,5 @@ const RegisterScreen = () => {
 };
 
 const FormHeader = (props) => <h2 id="headerTitle">{props.title}</h2>;
-
-
-
-
 
 export default RegisterScreen;

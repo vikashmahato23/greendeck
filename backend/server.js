@@ -46,7 +46,7 @@ const oAuth2Client = new google.auth.OAuth2(
 );
 
 const SCOPE = [
-  "https://www.googleapis.com/auth/drive.metadata.readonly https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/drive.file",
+  "https://www.googleapis.com/auth/drive.metadata.readonly https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/spreadsheets.readonly https://www.googleapis.com/auth/plus.me https://www.googleapis.com/auth/userinfo.email",
 ];
 
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -86,6 +86,52 @@ app.post("/getUserInfo", (req, res) => {
     res.send(response.data);
   });
 });
+
+
+
+
+app.post("/sheet", (req, res) => {
+  if (req.body.token == null) return res.status(400).send("Token not found");
+  oAuth2Client.setCredentials(req.body.token);
+  const sheets = google.sheets({ version: "v4", auth: oAuth2Client });
+   const result = sheets.spreadsheets.get({
+     spreadsheetId: req.body.spreadsheetId,
+        fields:"sheets.properties"
+   }).then(data=>{
+    res.send(data.data.sheets)
+   }).catch(err=>{
+    res.send(err)
+   })
+
+});
+app.post("/sheetdetials", (req, res) => {
+  if (req.body.token == null) return res.status(400).send("Token not found");
+  oAuth2Client.setCredentials(req.body.token);
+  const sheets = google.sheets({ version: "v4", auth: oAuth2Client });
+   const result = sheets.spreadsheets.values
+     .batchGet({
+       spreadsheetId: req.body.id,
+       
+       // The A1 notation or R1C1 notation of the range to retrieve values from.
+       ranges: `${req.body.range}!A1:z1`,
+       // The ID of the spreadsheet to retrieve data from.
+
+       // How values should be represented in the output. The default render option is ValueRenderOption.FORMATTED_VALUE.
+       valueRenderOption: "UNFORMATTED_VALUE",
+       majorDimension:"COLUMNS"
+     })
+     .then((data) => {
+      
+      res.send(data.data.valueRanges[0].values);
+      
+     })
+     .catch((err) => {
+       res.send(err);
+     });
+
+});
+
+
 
 app.post("/readDrive", (req, res) => {
   if (req.body.token == null) return res.status(400).send("Token not found");

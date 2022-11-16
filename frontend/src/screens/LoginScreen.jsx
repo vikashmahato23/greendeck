@@ -18,7 +18,7 @@ const LoginScreen = () => {
 
   useEffect(() => {
     if (userInfo) {
-      navigate("/subscription");
+      navigate("/subscriptions");
     }
   }, [userInfo]);
 

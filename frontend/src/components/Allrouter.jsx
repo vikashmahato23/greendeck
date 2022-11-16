@@ -7,6 +7,7 @@ import LoginScreen from "../screens/LoginScreen";
 import Subscription from "../screens/Subscription";
 import Home from "../screens/Home";
 import { useSelector } from "react-redux";
+import Dashboard from "../screens/Dashboard";
 const Allrouter = () => {
      const userLogin = useSelector((state) => state.userLogin);
      const { loading, error, userInfo } = userLogin;
@@ -15,11 +16,13 @@ const Allrouter = () => {
   return (
     <>
       <Routes>
-      <Route path="/" element={<Home />} />
+        <Route path="/" element={<Home />} />
         <Route path="/signup" element={<RegisterScreen />} />
         <Route path="/login" element={<LoginScreen />} />
-        {userInfo?<Route path="/subscription" element={<Subscription />} />:null}
-         {/* <Route pathe="*" element={<Subscription />}/> */}
+        {userInfo ? (
+          <Route path="/subscriptions" element={<Subscription />} />
+        ) : null}
+        <Route path="/dashboard" element={<Dashboard/>} />
       </Routes>
     </>
   );

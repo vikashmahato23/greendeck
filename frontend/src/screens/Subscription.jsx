@@ -10,61 +10,55 @@ import Select from "react-select";
 import { set } from "mongoose";
 import Table from "../components/Table";
 const Subscription = () => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [url, setUrl] = useState("");
-  const [loginStatus, setLoginStatus] = useState(false);
+  // const [name, setName] = useState("");
+  // const [email, setEmail] = useState("");
+  // const [url, setUrl] = useState("");
+  // const [loginStatus, setLoginStatus] = useState(false);
   const dispatch = useDispatch();
   const userLogin = useSelector((state) => state.userLogin);
   const { loading, error, userInfo } = userLogin;
-  console.log(userInfo, "usrifo");
+
   const data = useSelector((state) => state.userDetails.user);
   const [res, setRes] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
-  // const[token,setToken]=({})
-  const[show,setShow]=useState(false)
-  const [options,setOption]=useState([])
-// const options = [
-//   { value: "chocolate", label: "Chocolate" },
-//   { value: "strawberry", label: "Strawberry" },
-//   { value: "vanilla", label: "Vanilla" },
-// ];
+  const [token, setToken] = "";
+  const [show, setShow] = useState(false);
+  const [options, setOption] = useState([]);
+  const [tab, setTAb] = useState([]);
 
-const customStyles = {
-  dropdownIndicator: (provided) => ({
-    ...provided,
-    color: "green",
-  }),
-  indicatorSeparator: (provided) => ({
-    ...provided,
-    display: "none",
-  }),
-  control: (provided, state) => ({
-    ...provided,
-    background: "#f7f7f7",
-    "&,&:focus,&:active": {
-      borderWidth: "3px",
-    },
-    boxShadoow: "none",
-    outline: "none",
-    borderColor: state.isFocused ? "green" : "transparent",
-    borderRadius: "8px",
-    padding: "12px 16px",
-    "&:hover": {
-      borderColor: "transparent",
-    },
-  }),
-};
-
+  const customStyles = {
+    dropdownIndicator: (provided) => ({
+      ...provided,
+      color: "green",
+    }),
+    indicatorSeparator: (provided) => ({
+      ...provided,
+      display: "none",
+    }),
+    control: (provided, state) => ({
+      ...provided,
+      background: "#f7f7f7",
+      "&,&:focus,&:active": {
+        borderWidth: "3px",
+      },
+      boxShadoow: "none",
+      outline: "none",
+      borderColor: state.isFocused ? "green" : "transparent",
+      borderRadius: "8px",
+      padding: "12px 16px",
+      "&:hover": {
+        borderColor: "transparent",
+      },
+    }),
+  };
+  //process of getting google Id and sbuscripton
   useEffect(() => {
     if (location.state) {
       var code = location.state.split("=")[1].split("&")[0];
       axios
         .post("http://localhost:5000/getToken", { code })
         .then((res) => {
-          console.log(res.data, "token");
-         
           axios
             .post("http://localhost:5000/getUserInfo", { token: res.data })
             .then((data) => {
@@ -79,6 +73,7 @@ const customStyles = {
                         name: data.data.name,
                         googleId: data.data.id,
                         spreadsheet: spread.data,
+                        token: res.data,
                       },
                     })
                   );
@@ -90,8 +85,6 @@ const customStyles = {
             .catch((err) => {
               console.log(err);
             });
-
-          //  setRes(res.data);
         })
         .catch((err) => {
           console.log(err);
@@ -120,29 +113,17 @@ const customStyles = {
         console.log(err);
       });
   };
-   function handlesubcriber(data){
-   setOption([...data])
-   }
+  //set Sheetname
+  function handlesubcriber(data) {
+    setOption([...data]);
+    setShow(true);
+  }
+  //onchange gettin sheettab function
+
   function googleLogin() {}
   return (
     <div>
       <div>
-        {/* <select name="" id="" onChange={(e)=>{
-          console.log(e)
-        }}>
-          <option>Subscriber</option>
-         { userInfo.subscription?.map((e, i) => {
-                return (
-                  <option
-                 
-                    onClick={() => {
-                      console.log("click");
-                    }}
-                  >
-                    {e.googleId}
-                  </option>
-                )
-         })} */}
         {/* subscriber */}
         <div className="container">
           <h1 className="title">Subscriber</h1>
@@ -153,7 +134,7 @@ const customStyles = {
                 <th>Email</th>
               </tr>
             </thead>
-             <tbody>
+            <tbody>
               {(() => {
                 if (userInfo.subscription && data.subscription) {
                   return data.subscription?.map((e, i) => {
@@ -177,7 +158,7 @@ const customStyles = {
                   return null;
                 }
               })()}
-             </tbody>
+            </tbody>
           </table>
         </div>
         {/* </select> */}
@@ -185,60 +166,93 @@ const customStyles = {
         {/* <Table/> */}
       </div>
       <div>
-        {/* <GoogleLogin
-          clientId="389276360501-l0hjjo1o29eui8ohijl065vj1gd0bkv9.apps.googleusercontent.com"
-          buttonText="Add a Subscription"
-          onSuccess={responseGoogle}
-          onFailure={responseGoogle}
-          cookiePolicy={"single_host_origin"}
-        /> */}
-        <button onClick={responseGoogle}>Add a subscirption</button>
+        <button style={{ width: "20%" }} onClick={responseGoogle}>
+          Add a subscirption
+        </button>
         <div style={{ marginTop: "10px", marginBottom: "5px" }}>
           {res ? (
-            <button onClick={googleLogin}>
+            <button style={{ width: "20%" }} onClick={googleLogin}>
               <a href={res}>Verify by google</a>
             </button>
           ) : null}
         </div>
 
-        <div className="select">
-          <h2>Shee name</h2>
-          <Select
-            styles={customStyles}
-            className="select"
-            options={options}
-            theme={(theme) => ({
-              ...theme,
-              colors: {
-                ...theme.colors,
-                primary25: "#f7f7f7",
-                primary: "green",
-                primary50: "green",
-              },
-            })}
-          />
-          <h2>Tab name</h2>
-          <Select
-          onChange={(e)=>{
-            console.log()
-          }}
-            styles={customStyles}
-            className="select"
-            options={options}
-            theme={(theme) => ({
-              ...theme,
-              colors: {
-                ...theme.colors,
-                primary25: "#f7f7f7",
-                primary: "green",
-                primary50: "green",
-              },
-             
-            })}
+        {show ? (
+          <div className="select">
+            <h2>Sheet name</h2>
+            <Select
+              //get all sheet of spred sheet id by changing sheet
+              onChange={(e) => {
+                console.log(e.value, "vlue", userInfo, "dfd", options);
+                axios
+                  .post("http://localhost:5000/sheet", {
+                    token: e.access_token,
+                    spreadsheetId: e.value,
+                  })
+                  .then((res) => {
+                    var arr = [];
+                    console.log(res.data);
+                    for (var i = 0; i < res.data?.length; i++) {
+                      arr.push({
+                        value: res.data[i].properties.sheetId,
+                        token: e.access_token,
+                        spreadsheetId: e.value,
+                        label: res.data[i].properties.title,
+                      });
+                    }
 
-          
-          />
-        </div>
+                    setTAb([...arr]);
+                  })
+                  .catch((err) => {
+                    console.log(err);
+                  });
+              }}
+              styles={customStyles}
+              className="select"
+              options={options}
+              theme={(theme) => ({
+                ...theme,
+                colors: {
+                  ...theme.colors,
+                  primary25: "#f7f7f7",
+                  primary: "green",
+                  primary50: "green",
+                },
+              })}
+            />
+            <h2>Tab name</h2>
+            <Select
+              onChange={(e) => {
+                axios
+                  .post("http://localhost:5000/sheetdetials", {
+                    token: e.token,
+                    id: e.spreadsheetId,
+                    range: e.label,
+                  })
+                  .then((res) => {
+                    if (res.data == "") alert("no Data");
+                    else navigate("/dashboard", { state: res.data });
+                    console.log(res.data);
+                  })
+                  .catch((err) => {
+                    console.log(err);
+                  });
+              }}
+              styles={customStyles}
+              className="select"
+              options={tab}
+              theme={(theme) => ({
+                ...theme,
+                colors: {
+                  ...theme.colors,
+                  primary25: "#f7f7f7",
+                  primary: "green",
+                  primary50: "green",
+                },
+              })}
+            />
+          </div>
+        ) : null}
       </div>
     </div>
   );

@@ -11,7 +11,8 @@ button {
     cursor: pointer;
     transition: opacity 0.25s ease-out;
 }
-.select{
+
+.select {
     width: 50%;
     margin: auto;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
