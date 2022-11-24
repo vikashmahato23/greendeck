@@ -111,6 +111,6 @@ to fix it it have taken 1 and half days.
 ## Environment Variables
 
 To run this project, you will need to add the following environment variables to your .env file
-`MONGO_URI`=`"mongodb+srv://clipper:J123456789m@cluster0.xlvf7g7.mongodb.net/clipper?retryWrites=true&w=majority"`
+`MONGO_URI`=`""`
 `JWT_SECRET`=72a943c14e89fd816ba9f186a8e5c3c065c3b2180d2a0bf022e70834abbe2668
 
